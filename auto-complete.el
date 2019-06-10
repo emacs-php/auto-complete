@@ -48,10 +48,10 @@
 Use `version-to-list' to get version component.")
 
 (defconst ac-version-major (car (version-to-list ac-version))
-  "Major version number of auto-complete")
+  "Major version number of auto-complete.")
 
 (defconst ac-version-minor (cadr (version-to-list ac-version))
-  "Minor version number of auto-complete")
+  "Minor version number of auto-complete.")
 
 (require 'cl-lib)
 (require 'popup)
