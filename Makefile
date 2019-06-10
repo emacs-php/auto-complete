@@ -3,6 +3,7 @@ PACKAGE=auto-complete-${VERSION}
 EMACS ?= emacs
 CASK ?= cask
 SITE=../auto-complete.github.com
+AUTOLOADS = auto-complete-autoloads.el
 
 ELPA_DIR = $(shell EMACS=$(EMACS) $(CASK) package-directory)
 
@@ -10,6 +11,15 @@ test: elpa
 	$(CASK) exec $(EMACS) -batch -Q -L . \
 		-l tests/run-test.el \
 		-f ert-run-tests-batch-and-exit
+
+autoloads: $(AUTOLOADS)
+
+$(AUTOLOADS): auto-complete.el auto-complete-config.el
+	$(EMACS) -Q -batch -L . --eval \
+	"(progn \
+	   (require 'package) \
+	   (normal-top-level-add-subdirs-to-load-path) \
+	   (package-generate-autoloads \"auto-complete\" default-directory))"
 
 byte-compile: elpa
 	$(CASK) exec $(EMACS) -Q -L . -batch -f batch-byte-compile auto-complete.el auto-complete-config.el
